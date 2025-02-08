@@ -48,5 +48,4 @@ document.addEventListener("DOMContentLoaded", function () {
     safeEventListener("backBtn", "click", goBack);
 
     console.log("Кнопки успешно привязаны!");
-
 });
