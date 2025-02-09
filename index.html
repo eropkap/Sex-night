@@ -34,6 +34,13 @@
         .hidden {
             display: none;
         }
+        .animated-card {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -45,21 +52,37 @@
         <button onclick="startGame('extreme')">Экстремальный</button>
         <button onclick="startGame('control')">Полный контроль</button>
         <button onclick="startGame('porn')">Порно-режим</button>
+        <button onclick="startGame('unlimited')">Без ограничений</button>
+        <button onclick="startGame('roleplay')">Ролевая игра</button>
+        <button onclick="startGame('random_events')">Случайные события</button>
+        <button onclick="toggleSettings()">⚙ Настройки</button>
     </div>
 
     <div id="gameArea" class="hidden">
         <h2 id="categoryTitle"></h2>
-        <p id="taskText">Нажмите "Следующее задание", чтобы начать.</p>
+        <p id="taskText" class="animated-card">Нажмите "Следующее задание", чтобы начать.</p>
         <button onclick="getNewTask()">Следующее задание</button>
         <button onclick="getPenalty()">Штраф</button>
         <button onclick="restartGame()">Назад в меню</button>
+    </div>
+
+    <div id="settingsArea" class="hidden">
+        <h2>Настройки</h2>
+        <label>Выберите фон:</label>
+        <select id="backgroundSelect" onchange="changeBackground()">
+            <option value="dark">Тёмный</option>
+            <option value="romantic">Романтичный</option>
+            <option value="passionate">Страстный</option>
+        </select>
+        <br><br>
+        <button onclick="toggleSettings()">Закрыть настройки</button>
     </div>
 
     <script>
         let gameData = {};
         let penalties = [];
         let currentCategory = "";
-
+        
         async function loadGameData() {
             try {
                 const response = await fetch("game_cards.json");
@@ -98,6 +121,21 @@
         function restartGame() {
             document.querySelector('.container').classList.remove('hidden');
             document.querySelector('#gameArea').classList.add('hidden');
+        }
+
+        function toggleSettings() {
+            document.querySelector('#settingsArea').classList.toggle('hidden');
+        }
+
+        function changeBackground() {
+            const selectedTheme = document.querySelector("#backgroundSelect").value;
+            if (selectedTheme === "dark") {
+                document.body.style.background = "linear-gradient(45deg, #33001b, #ff0080)";
+            } else if (selectedTheme === "romantic") {
+                document.body.style.background = "linear-gradient(45deg, #990033, #ff6699)";
+            } else if (selectedTheme === "passionate") {
+                document.body.style.background = "linear-gradient(45deg, #660000, #cc3300)";
+            }
         }
 
         window.onload = loadGameData;
