@@ -1,69 +1,53 @@
+function startGame() {
+    document.querySelector('.container').classList.add('hidden');
+    document.getElementById('gameScreen').classList.remove('hidden');
+}
 
-document.addEventListener("DOMContentLoaded", function () {
-    const startButtons = document.querySelectorAll(".mode-button");
-    const spinButton = document.getElementById("spinButton");
-    const nextButton = document.getElementById("nextButton");
-    const penaltyButton = document.getElementById("penaltyButton");
-    const cardContainer = document.getElementById("cardContainer");
-    const finalLocation = document.getElementById("finalLocation");
-    let selectedCard = "";
-    let selectedFinal = "";
+function spinWheel() {
+    let tasks = [
+        "Поцелуй партнера в чувствительное место.",
+        "Прошепчи что-то грязное ему/ей на ухо.",
+        "Медленно сними один элемент одежды партнера зубами.",
+        "Используй губы, чтобы возбудить партнера, но не касайся руками.",
+        "Разреши партнеру выбрать для тебя задание."
+    ];
+    
+    let finalLocations = [
+        "На кровати",
+        "На полу",
+        "В ванной",
+        "Перед зеркалом",
+        "В одежде до конца",
+        "На скорости"
+    ];
+    
+    let bodyLocations = [
+        "Рот",
+        "Грудь",
+        "Попа",
+        "Внутрь",
+        "На лицо",
+        "На тело"
+    ];
+    
+    let task = tasks[Math.floor(Math.random() * tasks.length)];
+    let finalLocation = finalLocations[Math.floor(Math.random() * finalLocations.length)];
+    let bodyLocation = bodyLocations[Math.floor(Math.random() * bodyLocations.length)];
 
-    // Выбор режима
-    startButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            document.getElementById("mainScreen").classList.add("hidden");
-            document.getElementById("gameScreen").classList.remove("hidden");
-        });
-    });
+    let wheel = document.getElementById("wheel");
+    let cardContainer = document.getElementById("cardContainer");
+    let card = document.getElementById("card");
 
-    // Крутить колесо
-    spinButton.addEventListener("click", function () {
-        spinButton.disabled = true; // Отключаем кнопку пока идёт вращение
+    wheel.classList.add("spin");
+    setTimeout(() => {
+        wheel.classList.remove("spin");
+        cardContainer.classList.remove("hidden");
+        card.classList.add("flip");
+        card.querySelector(".card-back").innerHTML = `<h2>${task}</h2><p>Финал: ${finalLocation} – ${bodyLocation}</p>`;
+    }, 2000);
+}
 
-        setTimeout(() => {
-            fetch("game_data.json")
-                .then(response => response.json())
-                .then(data => {
-                    const categories = Object.keys(data.cards);
-                    const category = categories[Math.floor(Math.random() * categories.length)];
-                    const cardList = data.cards[category];
-                    selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
-
-                    const finalKeys = Object.keys(data.final_locations.locations);
-                    const finalKey = finalKeys[Math.floor(Math.random() * finalKeys.length)];
-                    const finalOptions = data.final_locations.locations[finalKey];
-                    selectedFinal = finalOptions[Math.floor(Math.random() * finalOptions.length)];
-
-                    // Показываем задание сразу после вращения
-                    cardContainer.innerHTML = `<p>${selectedCard}</p>`;
-                    finalLocation.innerHTML = `<p>Финал: ${selectedFinal}</p>`;
-
-                    document.getElementById("wheelScreen").classList.add("hidden");
-                    document.getElementById("cardScreen").classList.remove("hidden");
-                });
-        }, 2000);
-    });
-
-    // Переход к полному заданию
-    nextButton.addEventListener("click", function () {
-        cardContainer.innerHTML += `<p><strong>Полное задание:</strong> ${selectedCard}</p>`;
-        finalLocation.innerHTML += `<p><strong>Конец:</strong> ${selectedFinal}</p>`;
-        document.getElementById("cardScreen").classList.add("hidden");
-        document.getElementById("fullTaskScreen").classList.remove("hidden");
-    });
-
-    // Штраф
-    penaltyButton.addEventListener("click", function () {
-        fetch("game_data.json")
-            .then(response => response.json())
-            .then(data => {
-                const penalties = data.cards["Штрафы"];
-                const penalty = penalties[Math.floor(Math.random() * penalties.length)];
-                document.getElementById("penaltyContainer").innerHTML = `<p>Штраф: ${penalty}</p>`;
-            });
-
-        document.getElementById("cardScreen").classList.add("hidden");
-        document.getElementById("penaltyScreen").classList.remove("hidden");
-    });
-});
+function goBack() {
+    document.getElementById('gameScreen').classList.add('hidden');
+    document.querySelector('.container').classList.remove('hidden');
+}
