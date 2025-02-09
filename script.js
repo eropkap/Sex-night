@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Крутить колесо → Переход к заданию
     spinButton.addEventListener("click", function () {
-        spinButton.disabled = true; // Отключаем кнопку пока идёт вращение
+        spinButton.disabled = true;
 
         setTimeout(() => {
             fetch("game_data.json")
@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     const finalOptions = data.finals.locations[finalKey];
                     selectedFinal = finalOptions[Math.floor(Math.random() * finalOptions.length)];
 
-                    // Отображаем задание и место финала
                     cardContainer.innerHTML = `<p>${selectedCard}</p>`;
                     finalLocation.innerHTML = `<p>Финал: ${selectedFinal}</p>`;
 
@@ -54,14 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("fullTaskScreen").classList.remove("hidden");
     });
 
-    // Переход к штрафу
+    // Переход к штрафу (исправлено)
     penaltyButton.addEventListener("click", function () {
         fetch("game_data.json")
             .then(response => response.json())
             .then(data => {
                 const penalties = data.penalties;
                 const penalty = penalties[Math.floor(Math.random() * penalties.length)];
-                penaltyContainer.innerHTML = `<p>Штраф: ${penalty}</p>`;
+                document.getElementById("penaltyContainer").innerHTML = `<p><strong>Штраф:</strong> ${penalty}</p>`;
             });
 
         document.getElementById("cardScreen").classList.add("hidden");
