@@ -43,8 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 const finalOptions = data.finals.locations[finalKey];
                 selectedFinal = finalOptions[Math.floor(Math.random() * finalOptions.length)];
 
-                cardContainer.innerHTML = `<p>${selectedCard}</p>`;
-                finalLocation.innerHTML = `<p>Финал: ${selectedFinal}</p>`;
+                // 🛠 **Исправлено: обновляем DOM перед переключением экранов**
+                cardContainer.innerHTML = `<p><strong>Задание:</strong> ${selectedCard}</p>`;
+                finalLocation.innerHTML = `<p><strong>Финал:</strong> ${selectedFinal}</p>`;
 
                 hideAllScreens();
                 document.getElementById("cardScreen").classList.remove("hidden");
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 const penalties = data.penalties;
                 const penalty = penalties[Math.floor(Math.random() * penalties.length)];
-                document.getElementById("penaltyContainer").innerHTML = `<p>Штраф: ${penalty}</p>`;
+                document.getElementById("penaltyContainer").innerHTML = `<p><strong>Штраф:</strong> ${penalty}</p>`;
 
                 hideAllScreens();
                 document.getElementById("penaltyScreen").classList.remove("hidden");
