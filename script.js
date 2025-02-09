@@ -4,13 +4,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const spinButton = document.getElementById("spinButton");
     const nextButton = document.getElementById("nextButton");
     const penaltyButton = document.getElementById("penaltyButton");
+    const returnButtons = document.querySelectorAll(".returnButton");
     const cardContainer = document.getElementById("cardContainer");
     const finalLocation = document.getElementById("finalLocation");
     const penaltyContainer = document.getElementById("penaltyContainer");
     let selectedCard = "";
     let selectedFinal = "";
 
-    // Выбор режима → Переход к колесу фортуны
+    // Исправленный выбор режима → Переход к колесу фортуны
     startButtons.forEach(button => {
         button.addEventListener("click", function () {
             document.getElementById("mainScreen").classList.add("hidden");
@@ -53,17 +54,28 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("fullTaskScreen").classList.remove("hidden");
     });
 
-    // Переход к штрафу (исправлено)
+    // Переход к штрафу
     penaltyButton.addEventListener("click", function () {
         fetch("game_data.json")
             .then(response => response.json())
             .then(data => {
                 const penalties = data.penalties;
                 const penalty = penalties[Math.floor(Math.random() * penalties.length)];
-                document.getElementById("penaltyContainer").innerHTML = `<p><strong>Штраф:</strong> ${penalty}</p>`;
+                penaltyContainer.innerHTML = `<p><strong>Штраф:</strong> ${penalty}</p>`;
             });
 
         document.getElementById("cardScreen").classList.add("hidden");
         document.getElementById("penaltyScreen").classList.remove("hidden");
+    });
+
+    // Возвращение в меню (исправлено)
+    returnButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            document.getElementById("mainScreen").classList.remove("hidden");
+            document.getElementById("gameScreen").classList.add("hidden");
+            document.getElementById("cardScreen").classList.add("hidden");
+            document.getElementById("fullTaskScreen").classList.add("hidden");
+            document.getElementById("penaltyScreen").classList.add("hidden");
+        });
     });
 });
