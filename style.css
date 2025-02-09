@@ -1,83 +1,50 @@
+
 body {
-    background: linear-gradient(135deg, #120318, #3a0d2d);
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
+    font-family: Arial, sans-serif;
     text-align: center;
-    padding: 20px;
+    background-color: #000;
+    color: #fff;
 }
 
-.title {
-    font-size: 36px;
-    font-weight: bold;
-    text-shadow: 0px 0px 15px rgba(255, 65, 108, 1);
-    animation: glow 2s infinite alternate;
-}
-
-.btn {
-    background: linear-gradient(45deg, #ff416c, #ff4b2b);
-    border: none;
-    color: white;
-    padding: 15px;
-    margin: 10px auto;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 30px;
-    transition: transform 0.3s, box-shadow 0.4s;
-    font-weight: bold;
-    letter-spacing: 1px;
-    display: block;
-    width: 80%;
-    max-width: 300px;
-}
-
-.btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0px 0px 25px rgba(255, 65, 108, 1);
-}
-
-.hidden {
+.screen {
     display: none;
 }
 
-.wheel-container {
-    margin: 20px auto;
-    width: 250px;
-    height: 250px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+.screen.hidden {
+    display: block;
 }
 
-.card {
-    width: 320px;
-    height: 220px;
-    margin: 20px auto;
-    perspective: 1000px;
-    position: relative;
+button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 10px;
     cursor: pointer;
-    transform-style: preserve-3d;
-    transition: transform 1s ease-in-out;
 }
 
-.card div {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    border-radius: 15px;
-    backface-visibility: hidden;
-    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+button:hover {
+    background-color: #666;
 }
 
-.card-front {
-    background: url('card_front.png') no-repeat center/cover;
+.wheel {
+    margin-top: 20px;
+    width: 300px;
+    height: 300px;
+    background-color: #ff4500;
+    border-radius: 50%;
+    display: inline-block;
 }
 
+.card-container {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.card-front,
 .card-back {
-    background: url('card_back.png') no-repeat center/cover;
-    transform: rotateY(180deg);
-}
-
-.card.flip {
-    transform: rotateY(180deg);
+    background-color: #333;
+    padding: 20px;
+    margin: 5px;
+    border-radius: 5px;
 }
