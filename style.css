@@ -48,3 +48,21 @@ button:hover {
     margin: 5px;
     border-radius: 5px;
 }
+
+#modeButtons {
+    margin-top: 20px;
+}
+
+.mode-button {
+    background-color: #ff4500;
+    color: white;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.mode-button:hover {
+    background-color: #ff6a00;
+}

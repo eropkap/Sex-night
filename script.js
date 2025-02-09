@@ -1,106 +1,69 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-    let wheel = document.getElementById("wheel");
-    let cardContainer = document.getElementById("cardContainer");
-    let cardFront = document.querySelector(".card-front");
-    let cardBack = document.querySelector(".card-back");
-    let spinButton = document.getElementById("spinButton");
+    const startButtons = document.querySelectorAll(".mode-button");
+    const spinButton = document.getElementById("spinButton");
+    const nextButton = document.getElementById("nextButton");
+    const penaltyButton = document.getElementById("penaltyButton");
+    const wheel = document.getElementById("wheel");
+    const cardContainer = document.getElementById("cardContainer");
+    const finalLocation = document.getElementById("finalLocation");
+    let selectedCard = "";
+    let selectedFinal = "";
 
-    let mainScreen = document.getElementById("mainScreen");
-    let modeButtonsContainer = document.getElementById("modeButtons");
-
-    let selectedMode = null;
-    let cards = {};
-    let finalLocations = {};
-
-    // Загружаем данные из JSON
-    fetch("final_game_data.json")
-        .then(response => response.json())
-        .then(data => {
-            cards = data.cards;
-            finalLocations = data.final_locations;
-            createModeButtons(Object.keys(cards)); // Создаём кнопки режимов из JSON
-        })
-        .catch(error => console.error("Ошибка загрузки JSON:", error));
-
-    // Функция для показа главного экрана с режимами
-    function showMainScreen() {
-        document.querySelectorAll(".screen").forEach(screen => screen.classList.add("hidden"));
-        mainScreen.classList.remove("hidden");
-    }
-
-    // Создание кнопок для выбора режима
-    function createModeButtons(modes) {
-        modeButtonsContainer.innerHTML = ""; // Очищаем контейнер перед добавлением кнопок
-        modes.forEach(mode => {
-            const button = document.createElement("button");
-            button.textContent = mode;
-            button.classList.add("mode-button");
-            button.addEventListener("click", () => selectMode(mode));
-            modeButtonsContainer.appendChild(button);
+    // Выбор режима
+    startButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            document.getElementById("mainScreen").classList.add("hidden");
+            document.getElementById("gameScreen").classList.remove("hidden");
         });
-    }
+    });
 
-    // Выбор режима из главного меню
-    function selectMode(mode) {
-        selectedMode = mode;
-        console.log("Выбран режим:", mode);
-    }
-
-    // Кручение колеса
-    function spinWheel() {
-        if (!selectedMode || !cards[selectedMode] || cards[selectedMode].length === 0) {
-            alert("Выберите режим перед тем, как крутить колесо!");
-            return;
-        }
-
-        let angle = Math.floor(Math.random() * 3600) + 1800; // Случайный угол вращения
-        wheel.style.transition = "transform 4s ease-out";
-        wheel.style.transform = `rotate(${angle}deg)`;
+    // Крутить колесо
+    spinButton.addEventListener("click", function () {
+        spinButton.disabled = true; // Отключаем кнопку пока идёт вращение
 
         setTimeout(() => {
-            revealCard();
-        }, 4500);
-    }
+            fetch("game_data.json")
+                .then(response => response.json())
+                .then(data => {
+                    const categories = Object.keys(data.cards);
+                    const category = categories[Math.floor(Math.random() * categories.length)];
+                    const cardList = data.cards[category];
+                    selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
 
-    // Выпадение задания
-    function revealCard() {
-        let randomIndex = Math.floor(Math.random() * cards[selectedMode].length);
-        let selectedCard = cards[selectedMode][randomIndex];
-        let finalLocation = getFinalLocation(selectedCard.text);
+                    const finalKeys = Object.keys(data.final_locations.locations);
+                    const finalKey = finalKeys[Math.floor(Math.random() * finalKeys.length)];
+                    const finalOptions = data.final_locations.locations[finalKey];
+                    selectedFinal = finalOptions[Math.floor(Math.random() * finalOptions.length)];
 
-        cardFront.innerText = selectedCard.text;
-        cardBack.innerText = `Финиш: ${finalLocation}`;
+                    cardContainer.innerHTML = `<p>${selectedCard}</p>`;
+                    finalLocation.innerHTML = `<p>Финал: ${selectedFinal}</p>`;
 
-        cardContainer.classList.remove("hidden");
-        cardContainer.classList.add("flip");
-    }
+                    document.getElementById("wheelScreen").classList.add("hidden");
+                    document.getElementById("cardScreen").classList.remove("hidden");
+                });
+        }, 2000);
+    });
 
-    // Определение места финала
-    function getFinalLocation(taskText) {
-        for (let key in finalLocations.mapping) {
-            if (taskText.includes(key)) {
-                let options = finalLocations.locations[finalLocations.mapping[key]];
-                return options[Math.floor(Math.random() * options.length)];
-            }
-        }
-        let allOptions = Object.values(finalLocations.locations).flat();
-        return allOptions[Math.floor(Math.random() * allOptions.length)];
-    }
+    // Переход к полному заданию
+    nextButton.addEventListener("click", function () {
+        cardContainer.innerHTML += `<p><strong>Полное задание:</strong> ${selectedCard}</p>`;
+        finalLocation.innerHTML += `<p><strong>Конец:</strong> ${selectedFinal}</p>`;
+        document.getElementById("cardScreen").classList.add("hidden");
+        document.getElementById("fullTaskScreen").classList.remove("hidden");
+    });
 
-    // Привязка событий к кнопкам
-    function safeEventListener(id, event, func) {
-        let element = document.getElementById(id);
-        if (element) {
-            element.addEventListener(event, func);
-        } else {
-            console.error("Элемент не найден:", id);
-        }
-    }
+    // Штраф
+    penaltyButton.addEventListener("click", function () {
+        fetch("game_data.json")
+            .then(response => response.json())
+            .then(data => {
+                const penalties = data.cards["Штрафы"];
+                const penalty = penalties[Math.floor(Math.random() * penalties.length)];
+                document.getElementById("penaltyScreen").innerHTML = `<p>Штраф: ${penalty}</p>`;
+            });
 
-    safeEventListener("spinButton", "click", spinWheel);
-    safeEventListener("backBtn", "click", showMainScreen);
-
-    // Изначально показываем главный экран
-    showMainScreen();
+        document.getElementById("cardScreen").classList.add("hidden");
+        document.getElementById("penaltyScreen").classList.remove("hidden");
+    });
 });

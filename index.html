@@ -8,28 +8,40 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="mainScreen" class="screen hidden">
-        <button id="settingsBtn">Настройки</button>
-        <button id="helpBtn">Справка</button>
-        <div id="modeButtons"></div>
+    <div id="mainScreen" class="screen">
+        <h2>Выберите режим:</h2>
+        <button class="mode-button">Обычный</button>
+        <button class="mode-button">Жёсткий</button>
+        <button class="mode-button">Экстремальный</button>
     </div>
-    <div id="settingsScreen" class="screen hidden">
-        <h2>Настройки</h2>
-        <button id="backBtn">Назад</button>
-    </div>
-    <div id="helpScreen" class="screen hidden">
-        <h2>Справка</h2>
-        <button id="backBtn">Назад</button>
-    </div>
+
     <div id="gameScreen" class="screen hidden">
-        <div id="wheel" class="wheel"></div>
-        <div id="cardContainer" class="card-container hidden">
-            <div class="card-front"></div>
-            <div class="card-back"></div>
-        </div>
+        <h2>Крутите колесо!</h2>
+        <div id="wheel"></div>
         <button id="spinButton">Крутить</button>
-        <button id="backBtn">Назад</button>
     </div>
-    <script src="script.js"></script>
+
+    <div id="cardScreen" class="screen hidden">
+        <h2>Ваше задание:</h2>
+        <div id="cardContainer"></div>
+        <div id="finalLocation"></div>
+        <button id="nextButton">Далее</button>
+        <button id="penaltyButton">Получить штраф</button>
+    </div>
+
+    <div id="fullTaskScreen" class="screen hidden">
+        <h2>Полное задание:</h2>
+        <div id="cardContainer"></div>
+        <div id="finalLocation"></div>
+        <button onclick="window.location.reload();">Вернуться в меню</button>
+    </div>
+
+    <div id="penaltyScreen" class="screen hidden">
+        <h2>Ваш штраф:</h2>
+        <div id="penaltyContainer"></div>
+        <button onclick="window.location.reload();">Вернуться в меню</button>
+    </div>
+
+    <script src="script_fixed.js"></script>
 </body>
 </html>
