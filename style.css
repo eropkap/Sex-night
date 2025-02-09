@@ -10,8 +10,12 @@ body {
     display: none;
 }
 
-.screen.active {
-    display: block;
+.hidden {
+    display: none !important;
+}
+
+.active {
+    display: block !important;
 }
 
 button {

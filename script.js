@@ -11,10 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let selectedCard = "";
     let selectedFinal = "";
 
-    // Исправленный выбор режима → Переход к колесу фортуны
+    // Выбор режима → Переход к колесу фортуны
     startButtons.forEach(button => {
         button.addEventListener("click", function () {
-            document.getElementById("mainScreen").classList.add("hidden");
+            document.querySelectorAll(".screen").forEach(screen => screen.classList.add("hidden"));
             document.getElementById("gameScreen").classList.remove("hidden");
         });
     });
@@ -27,6 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch("game_data.json")
                 .then(response => response.json())
                 .then(data => {
+                    if (!data.cards || !data.finals) {
+                        console.error("Ошибка: JSON-файл загружен некорректно.");
+                        return;
+                    }
+
                     const categories = Object.keys(data.cards);
                     const category = categories[Math.floor(Math.random() * categories.length)];
                     const cardList = data.cards[category];
@@ -40,9 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     cardContainer.innerHTML = `<p>${selectedCard}</p>`;
                     finalLocation.innerHTML = `<p>Финал: ${selectedFinal}</p>`;
 
-                    document.getElementById("gameScreen").classList.add("hidden");
+                    document.querySelectorAll(".screen").forEach(screen => screen.classList.add("hidden"));
                     document.getElementById("cardScreen").classList.remove("hidden");
-                });
+                })
+                .catch(error => console.error("Ошибка загрузки JSON:", error));
         }, 2000);
     });
 
@@ -50,7 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
     nextButton.addEventListener("click", function () {
         cardContainer.innerHTML += `<p><strong>Полное задание:</strong> ${selectedCard}</p>`;
         finalLocation.innerHTML += `<p><strong>Конец:</strong> ${selectedFinal}</p>`;
-        document.getElementById("cardScreen").classList.add("hidden");
+
+        document.querySelectorAll(".screen").forEach(screen => screen.classList.add("hidden"));
         document.getElementById("fullTaskScreen").classList.remove("hidden");
     });
 
@@ -62,20 +69,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 const penalties = data.penalties;
                 const penalty = penalties[Math.floor(Math.random() * penalties.length)];
                 penaltyContainer.innerHTML = `<p><strong>Штраф:</strong> ${penalty}</p>`;
-            });
+            })
+            .catch(error => console.error("Ошибка загрузки JSON:", error));
 
-        document.getElementById("cardScreen").classList.add("hidden");
+        document.querySelectorAll(".screen").forEach(screen => screen.classList.add("hidden"));
         document.getElementById("penaltyScreen").classList.remove("hidden");
     });
 
-    // Возвращение в меню (исправлено)
+    // Возвращение в меню (сброс игры)
     returnButtons.forEach(button => {
         button.addEventListener("click", function () {
-            document.getElementById("mainScreen").classList.remove("hidden");
-            document.getElementById("gameScreen").classList.add("hidden");
-            document.getElementById("cardScreen").classList.add("hidden");
-            document.getElementById("fullTaskScreen").classList.add("hidden");
-            document.getElementById("penaltyScreen").classList.add("hidden");
+            location.reload();
         });
     });
 });
