@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const spinButton = document.getElementById("spinButton");
     const nextButton = document.getElementById("nextButton");
     const penaltyButton = document.getElementById("penaltyButton");
-    const wheel = document.getElementById("wheel");
     const cardContainer = document.getElementById("cardContainer");
     const finalLocation = document.getElementById("finalLocation");
     let selectedCard = "";
@@ -36,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const finalOptions = data.final_locations.locations[finalKey];
                     selectedFinal = finalOptions[Math.floor(Math.random() * finalOptions.length)];
 
+                    // Показываем задание сразу после вращения
                     cardContainer.innerHTML = `<p>${selectedCard}</p>`;
                     finalLocation.innerHTML = `<p>Финал: ${selectedFinal}</p>`;
 
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 const penalties = data.cards["Штрафы"];
                 const penalty = penalties[Math.floor(Math.random() * penalties.length)];
-                document.getElementById("penaltyScreen").innerHTML = `<p>Штраф: ${penalty}</p>`;
+                document.getElementById("penaltyContainer").innerHTML = `<p>Штраф: ${penalty}</p>`;
             });
 
         document.getElementById("cardScreen").classList.add("hidden");
