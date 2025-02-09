@@ -8,40 +8,33 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="mainScreen" class="screen">
-        <h2>Выберите режим:</h2>
-        <button class="mode-button" data-mode="Обычный">Обычный</button>
-        <button class="mode-button" data-mode="Жёсткий">Жёсткий</button>
-        <button class="mode-button" data-mode="Экстремальный">Экстремальный</button>
-        <button class="mode-button" data-mode="Рандомный">Рандомный</button>
+    <div id="mainScreen" class="screen active">
+        <h1>Самая сексуальная ночь</h1>
+        <div class="button-container">
+            <button class="mode-button" data-mode="normal"><img src="icons/normal.png"><span>Обычный</span></button>
+            <button class="mode-button" data-mode="hard"><img src="icons/hard.png"><span>Жёсткий</span></button>
+            <button class="mode-button" data-mode="extreme"><img src="icons/extreme.png"><span>Экстремальный</span></button>
+            <button class="mode-button" data-mode="random"><img src="icons/random.png"><span>Случайный</span></button>
+        </div>
     </div>
 
     <div id="gameScreen" class="screen hidden">
-        <h2>Крутите колесо!</h2>
-        <div id="wheel"></div>
-        <button id="spinButton">Крутить</button>
+        <h2>Крути колесо</h2>
+        <button id="spinButton"><img src="icons/spin.png"><span>Крутить</span></button>
     </div>
 
     <div id="cardScreen" class="screen hidden">
-        <h2>Ваше задание:</h2>
+        <h2>Твоё задание</h2>
         <div id="cardContainer"></div>
-        <div id="finalLocation"></div>
-        <button id="nextButton">Далее</button>
-        <button id="penaltyButton">Получить штраф</button>
-        <button class="returnButton">Вернуться в меню</button>
-    </div>
-
-    <div id="fullTaskScreen" class="screen hidden">
-        <h2>Полное задание:</h2>
-        <div id="cardContainer"></div>
-        <div id="finalLocation"></div>
-        <button class="returnButton">Вернуться в меню</button>
+        <p id="finalLocation"></p>
+        <button id="nextButton"><img src="icons/next.png"><span>Далее</span></button>
+        <button id="penaltyButton"><img src="icons/penalty.png"><span>Штраф</span></button>
     </div>
 
     <div id="penaltyScreen" class="screen hidden">
-        <h2>Ваш штраф:</h2>
+        <h2>Штраф</h2>
         <div id="penaltyContainer"></div>
-        <button class="returnButton">Вернуться в меню</button>
+        <button class="returnButton"><img src="icons/home.png"><span>В меню</span></button>
     </div>
 
     <script src="script.js"></script>
