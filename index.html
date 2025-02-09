@@ -1,1 +1,51 @@
-// Placeholder for index.html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Самая сексуальная ночь</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Самая сексуальная ночь</h1>
+        <p>Выберите режим игры:</p>
+        <button onclick="startGame('normal')">Обычный</button>
+        <button onclick="startGame('hard')">Жёсткий</button>
+        <button onclick="startGame('extreme')">Экстремальный</button>
+        <button onclick="startGame('control')">Полный контроль</button>
+        <button onclick="startGame('porn')">Порно-режим</button>
+    </div>
+
+    <div id="gameArea" class="hidden">
+        <h2 id="categoryTitle"></h2>
+        <p id="taskText"></p>
+        <button onclick="getNewTask()">Следующее задание</button>
+    </div>
+
+    <script>
+        let gameData = {};
+        async function loadGameData() {
+            const response = await fetch("game_cards.json");
+            gameData = await response.json();
+        }
+
+        async function startGame(category) {
+            document.querySelector('.container').classList.add('hidden');
+            document.querySelector('#gameArea').classList.remove('hidden');
+            document.querySelector('#categoryTitle').textContent = category.toUpperCase();
+            getNewTask(category);
+        }
+
+        function getNewTask(category) {
+            const tasks = gameData.categories[category];
+            const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+            document.querySelector('#taskText').textContent = randomTask;
+        }
+
+        window.onload = loadGameData;
+    </script>
+
+</body>
+</html>
