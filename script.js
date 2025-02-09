@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let spinButton = document.getElementById("spinButton");
 
     let mainScreen = document.getElementById("mainScreen");
+    let modeButtonsContainer = document.getElementById("modeButtons");
 
     let selectedMode = null;
     let cards = {};
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             cards = data.cards;
             finalLocations = data.final_locations;
+            createModeButtons(Object.keys(cards)); // Создаём кнопки режимов из JSON
         })
         .catch(error => console.error("Ошибка загрузки JSON:", error));
 
@@ -27,10 +29,22 @@ document.addEventListener("DOMContentLoaded", function () {
         mainScreen.classList.remove("hidden");
     }
 
+    // Создание кнопок для выбора режима
+    function createModeButtons(modes) {
+        modeButtonsContainer.innerHTML = ""; // Очищаем контейнер перед добавлением кнопок
+        modes.forEach(mode => {
+            const button = document.createElement("button");
+            button.textContent = mode;
+            button.classList.add("mode-button");
+            button.addEventListener("click", () => selectMode(mode));
+            modeButtonsContainer.appendChild(button);
+        });
+    }
+
     // Выбор режима из главного меню
     function selectMode(mode) {
         selectedMode = mode;
-        showMainScreen();
+        console.log("Выбран режим:", mode);
     }
 
     // Кручение колеса
@@ -86,15 +100,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     safeEventListener("spinButton", "click", spinWheel);
     safeEventListener("backBtn", "click", showMainScreen);
-
-    // Добавляю режимы на главный экран
-    const modes = ["Для него", "Для неё", "Супер-карты", "Ролевой режим", "Порно-повтор", "Позы", "Общий режим"];
-    modes.forEach(mode => {
-        const button = document.createElement("button");
-        button.textContent = mode;
-        button.addEventListener("click", () => selectMode(mode));
-        document.getElementById("mainScreen").appendChild(button);
-    });
 
     // Изначально показываем главный экран
     showMainScreen();
