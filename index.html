@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,24 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Самая сексуальная ночь</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">🔥 Самая сексуальная ночь 🔥</h1>
-        <button class="btn" onclick="startGame()">Играть</button>
+    <div id="mainScreen" class="screen">
+        <h2>Выберите режим:</h2>
+        <button class="mode-button" data-mode="Обычный">Обычный</button>
+        <button class="mode-button" data-mode="Жёсткий">Жёсткий</button>
+        <button class="mode-button" data-mode="Экстремальный">Экстремальный</button>
+        <button class="mode-button" data-mode="Рандомный">Рандомный</button>
     </div>
 
-    <div id="gameScreen" class="hidden">
-        <h2 class="subtitle">Крути колесо, чтобы получить задание!</h2>
-        <div class="wheel-container">
-            <div id="wheel" class="wheel">
-                <div class="pointer"></div>
-            </div>
-        </div>
-        <button class="btn" onclick="spinWheel()">Крутить колесо</button>
-        <div id="card" class="hidden card"></div>
-        <button class="btn back-btn" onclick="goBack()">Назад</button>
+    <div id="gameScreen" class="screen hidden">
+        <h2>Крутите колесо!</h2>
+        <div id="wheel"></div>
+        <button id="spinButton">Крутить</button>
+    </div>
+
+    <div id="cardScreen" class="screen hidden">
+        <h2>Ваше задание:</h2>
+        <div id="cardContainer"></div>
+        <div id="finalLocation"></div>
+        <button id="nextButton">Далее</button>
+        <button id="penaltyButton">Получить штраф</button>
+    </div>
+
+    <div id="fullTaskScreen" class="screen hidden">
+        <h2>Полное задание:</h2>
+        <div id="cardContainer"></div>
+        <div id="finalLocation"></div>
+        <button onclick="window.location.reload();">Вернуться в меню</button>
+    </div>
+
+    <div id="penaltyScreen" class="screen hidden">
+        <h2>Ваш штраф:</h2>
+        <div id="penaltyContainer"></div>
+        <button onclick="window.location.reload();">Вернуться в меню</button>
     </div>
 
     <script src="script.js"></script>
