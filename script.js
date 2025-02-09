@@ -48,7 +48,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 hideAllScreens();
                 document.getElementById("cardScreen").classList.remove("hidden");
+                document.getElementById("cardScreen").classList.add("active");
             });
+    });
+
+    nextButton.addEventListener("click", function () {
+        hideAllScreens();
+        document.getElementById("mainScreen").classList.remove("hidden");
+        document.getElementById("mainScreen").classList.add("active");
     });
 
     penaltyButton.addEventListener("click", function () {
@@ -58,16 +65,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 const penalties = data.penalties;
                 const penalty = penalties[Math.floor(Math.random() * penalties.length)];
                 document.getElementById("penaltyContainer").innerHTML = `<p>Штраф: ${penalty}</p>`;
-            });
 
-        hideAllScreens();
-        document.getElementById("penaltyScreen").classList.remove("hidden");
+                hideAllScreens();
+                document.getElementById("penaltyScreen").classList.remove("hidden");
+                document.getElementById("penaltyScreen").classList.add("active");
+            });
     });
 
     returnButtons.forEach(button => {
         button.addEventListener("click", function () {
             hideAllScreens();
             document.getElementById("mainScreen").classList.remove("hidden");
+            document.getElementById("mainScreen").classList.add("active");
         });
     });
 });
