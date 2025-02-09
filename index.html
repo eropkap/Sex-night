@@ -6,10 +6,39 @@
     <title>Самая сексуальная ночь</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    <style>
+        body {
+            background: linear-gradient(45deg, #33001b, #ff0080);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        button {
+            background: #ff0080;
+            border: none;
+            padding: 15px 30px;
+            color: white;
+            font-size: 18px;
+            margin: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #ff66b2;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Самая сексуальная ночь</h1>
+        <h1>🔥 Самая сексуальная ночь 🔥</h1>
         <p>Выберите режим игры:</p>
         <button onclick="startGame('normal')">Обычный</button>
         <button onclick="startGame('hard')">Жёсткий</button>
@@ -20,32 +49,58 @@
 
     <div id="gameArea" class="hidden">
         <h2 id="categoryTitle"></h2>
-        <p id="taskText"></p>
+        <p id="taskText">Нажмите "Следующее задание", чтобы начать.</p>
         <button onclick="getNewTask()">Следующее задание</button>
+        <button onclick="getPenalty()">Штраф</button>
+        <button onclick="restartGame()">Назад в меню</button>
     </div>
 
     <script>
         let gameData = {};
+        let penalties = [];
+        let currentCategory = "";
+
         async function loadGameData() {
-            const response = await fetch("game_cards.json");
-            gameData = await response.json();
+            try {
+                const response = await fetch("game_cards.json");
+                gameData = await response.json();
+
+                const penaltyResponse = await fetch("penalties.json");
+                penalties = (await penaltyResponse.json()).penalties;
+            } catch (error) {
+                console.error("Ошибка загрузки данных:", error);
+            }
         }
 
-        async function startGame(category) {
+        function startGame(category) {
+            currentCategory = category;
             document.querySelector('.container').classList.add('hidden');
             document.querySelector('#gameArea').classList.remove('hidden');
             document.querySelector('#categoryTitle').textContent = category.toUpperCase();
-            getNewTask(category);
+            getNewTask();
         }
 
-        function getNewTask(category) {
-            const tasks = gameData.categories[category];
+        function getNewTask() {
+            if (!currentCategory || !gameData.categories[currentCategory]) {
+                document.querySelector('#taskText').textContent = "Ошибка загрузки заданий.";
+                return;
+            }
+            const tasks = gameData.categories[currentCategory];
             const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
             document.querySelector('#taskText').textContent = randomTask;
         }
 
+        function getPenalty() {
+            const randomPenalty = penalties[Math.floor(Math.random() * penalties.length)];
+            alert("🔥 Штраф: " + randomPenalty);
+        }
+
+        function restartGame() {
+            document.querySelector('.container').classList.remove('hidden');
+            document.querySelector('#gameArea').classList.add('hidden');
+        }
+
         window.onload = loadGameData;
     </script>
-
 </body>
 </html>
