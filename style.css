@@ -10,8 +10,8 @@ body {
     display: none;
 }
 
-.screen h2 {
-    font-size: 24px;
+.screen.active {
+    display: block;
 }
 
 button {
@@ -27,8 +27,4 @@ button {
 
 button:hover {
     background-color: darkred;
-}
-
-.hidden {
-    display: none;
 }
