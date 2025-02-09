@@ -35,15 +35,13 @@ function spinWheel() {
     let bodyLocation = bodyLocations[Math.floor(Math.random() * bodyLocations.length)];
 
     let wheel = document.getElementById("wheel");
-    let cardContainer = document.getElementById("cardContainer");
     let card = document.getElementById("card");
 
     wheel.classList.add("spin");
     setTimeout(() => {
         wheel.classList.remove("spin");
-        cardContainer.classList.remove("hidden");
-        card.classList.add("flip");
-        card.querySelector(".card-back").innerHTML = `<h2>${task}</h2><p>Финал: ${finalLocation} – ${bodyLocation}</p>`;
+        card.innerHTML = `<h2>${task}</h2><p>Финал: ${finalLocation} – ${bodyLocation}</p>`;
+        card.classList.add("show");
     }, 2000);
 }
 
